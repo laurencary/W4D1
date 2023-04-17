@@ -40,18 +40,28 @@ class KnightPathFinder
 
         until queue.empty?
             node = queue.shift
-            #debugger
             new_positions = new_move_positions(node.value)
-            #queue += new_positions
             new_positions.each do |pos|
                 child = PolyTreeNode.new(pos)
                 node.add_child(child)
                 queue << child
             end
         end
-
     end
 
+    def find_path(end_pos)
+        trace_path_back(@root_node.dfs(end_pos))
+    end
 
+    def trace_path_back(end_node)
+
+        path = [end_node]
+        
+        until path[0] == @root_node
+            # debugger
+            path.unshift(path[0].parent)
+        end
+        path.map { |node| node.value}
+    end
 
 end
