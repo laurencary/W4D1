@@ -4,32 +4,40 @@ require 'byebug'
 class KnightPathFinder
 
     def self.valid_moves(pos)
-        potential_move = [[-1, -2], [-1, 2], [1, -2], [1, 2]]
+        potential_move = [[-1, -2], [-1, 2], [1, -2], [1, 2],[-2,-1],[2,-1],[-2,1],[2,1]]
         valid_positions = []
 
         potential_move.each do |move|
             new_row = pos[0] + move[0]
             new_col = pos[1] + move[1]
-            #debugger
-
+            
             if (0..7).to_a.include?(new_row) && (0..7).to_a.include?(new_col)
                 valid_positions << [new_row, new_col]
-                valid_positions << [new_col, new_row]
             end
 
         end
         valid_positions
     end
 
-    attr_reader :root_node 
+    attr_reader :root_node
+    attr_accessor :considered_pos
 
     def initialize(start_pos)
         @root_node = PolyTreeNode.new(start_pos)
-        
+        @considered_pos = [start_pos]
+    end
+
+    def new_move_positions(pos)
+        new_moves = KnightPathFinder.valid_moves(pos)
+        filtered_moves = new_moves.reject { |el| @considered_pos.include?(el) }
+        @considered_pos += filtered_moves
+        filtered_moves 
     end
 
     def build_move_tree
-
+        
     end
+
+
 
 end
