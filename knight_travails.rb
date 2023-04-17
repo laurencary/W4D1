@@ -8,6 +8,7 @@ class KnightPathFinder
         valid_positions = []
 
         potential_move.each do |move|
+            #debugger
             new_row = pos[0] + move[0]
             new_col = pos[1] + move[1]
             
@@ -35,7 +36,20 @@ class KnightPathFinder
     end
 
     def build_move_tree
-        
+        queue = [@root_node]
+
+        until queue.empty?
+            node = queue.shift
+            #debugger
+            new_positions = new_move_positions(node.value)
+            #queue += new_positions
+            new_positions.each do |pos|
+                child = PolyTreeNode.new(pos)
+                node.add_child(child)
+                queue << child
+            end
+        end
+
     end
 
 
